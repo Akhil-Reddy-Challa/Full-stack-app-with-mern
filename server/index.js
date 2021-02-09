@@ -16,4 +16,6 @@ app.use("/validateUser", validateUserRouter);
 app.use("/newuser", newUserCreationRouter);
 app.use("/getUserData", getUserDataRouter);
 
-app.listen(3000);
+app.listen(3000, () => {
+  console.log("Express Server Listening on Port 3000");
+});
