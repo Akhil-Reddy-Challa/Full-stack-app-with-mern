@@ -1,0 +1,33 @@
+.mainContainer {
+  /*
+    For Positioning container to the center
+    */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-10%, -50%);
+
+  width: 500px;
+  height: 500px;
+  background-color: #808080;
+  text-align: center;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+  border-radius: 10px;
+}
+#loginPageTitle {
+  font-weight: bold;
+  text-align: center;
+}
+
+#user_name,
+#user_password {
+  border-radius: 5px;
+}
+#user_name_box,
+#user_password_box {
+  margin: 10px;
+}
+#loginButton {
+  border-radius: 10px;
+}
