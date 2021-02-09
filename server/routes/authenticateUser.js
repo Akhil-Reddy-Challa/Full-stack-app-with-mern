@@ -12,7 +12,7 @@ router.get("/:user_data", (req, res, next) => {
   var connection = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "root",
+    password: "root_password",
     database: "for_full_stack_app",
   });
   connection.connect();
