@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 var mysql = require("mysql");
+const getDBCredentials = require("../database_schema/credentials");
 
 router.get("/", (req, res, next) => {
   res.send("Inside host/newuser GET");
@@ -18,12 +19,7 @@ router.get("/:user_data", (req, res, next) => {
 
   //insert to DB
 
-  var connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "root_password",
-    database: "for_full_stack_app",
-  });
+  var connection = mysql.createConnection(getDBCredentials);
   connection.connect();
   connection.query(
     `INSERT INTO Users(user_name,password,user_first_name,user_last_name,user_email) VALUES("${user_name}","${password}",

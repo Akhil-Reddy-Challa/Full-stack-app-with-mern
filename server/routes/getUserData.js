@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 var mysql = require("mysql");
+const getDBCredentials = require("../database_schema/credentials");
 
 router.get("/", (req, res, next) => {
   res.send("Inside Get user data");
@@ -8,12 +9,7 @@ router.get("/", (req, res, next) => {
 router.get("/:user_data", (req, res, next) => {
   const user_name = res.req.params.user_data;
 
-  var connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "root_password",
-    database: "for_full_stack_app",
-  });
+  var connection = mysql.createConnection(getDBCredentials);
   connection.connect();
 
   connection.query(
