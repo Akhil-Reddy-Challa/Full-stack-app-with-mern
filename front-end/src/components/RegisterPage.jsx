@@ -6,6 +6,8 @@ import { useHistory } from "react-router-dom";
 const RegisterPage = () => {
   const history = useHistory();
   const { register, handleSubmit, errors } = useForm();
+  const backend_api =
+    "http://ec2-3-12-85-236.us-east-2.compute.amazonaws.com:3000/";
 
   const handleFormSubmit = () => {
     //Start validating our form
@@ -29,7 +31,7 @@ const RegisterPage = () => {
         user_last_name +
         "&&" +
         user_email;
-      fetch("http://localhost:3000/newuser/" + user_data)
+      fetch(backend_api + "newuser/" + user_data)
         .then((res) => res.json())
         .then(
           (res) => {
@@ -62,7 +64,7 @@ const RegisterPage = () => {
   };
   const userAccountExists = (user) => {
     //Make a request to DB to find if user_account exists
-    fetch("http://localhost:3000/validateUser/" + user)
+    fetch(backend_api + "validateUser/" + user)
       .then((res) => res.json())
       .then(
         (res) => {

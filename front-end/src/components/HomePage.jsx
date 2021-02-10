@@ -3,6 +3,9 @@ class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = { user_name: this.props.user_name };
+
+    const backend_api =
+      "http://ec2-3-12-85-236.us-east-2.compute.amazonaws.com:3000/";
     //this.fetchUserData(this.props.user_name);
   }
 

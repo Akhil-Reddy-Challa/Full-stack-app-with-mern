@@ -7,6 +7,8 @@ import { useHistory } from "react-router-dom";
 const LoginPage = () => {
   const history = useHistory();
   const { register, handleSubmit, errors } = useForm();
+  const backend_api =
+    "http://ec2-3-12-85-236.us-east-2.compute.amazonaws.com:3000/";
 
   const AuthenticateUser = () => {
     //console.log("Authenticating");
@@ -16,7 +18,7 @@ const LoginPage = () => {
 
     //Now make a call to the backend to validate user credentials
     const user_data = user_name + "&&" + user_password;
-    fetch("http://localhost:3000/authenticateUser/" + user_data)
+    fetch(backend_api + "authenticateUser/" + user_data)
       .then((res) => res.json())
       .then(
         (res) => {
