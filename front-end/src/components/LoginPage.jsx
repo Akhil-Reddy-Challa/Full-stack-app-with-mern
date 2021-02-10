@@ -34,40 +34,42 @@ const LoginPage = () => {
       );
   };
   return (
-    <div className="mainContainer">
-      <h3 id="loginPageTitle">Log In</h3>
-      <form onSubmit={handleSubmit(AuthenticateUser)} method="POST">
-        <div className="form-outline mb-4" id="user_name_box">
+    <div class="mainContainer">
+      <form onSubmit={handleSubmit(AuthenticateUser)} method="post">
+        <h2>Log in</h2>
+        <div class="form-group">
           <input
             type="text"
             id="user_name"
-            className="form-control"
-            placeholder="User name"
+            class="form-control"
+            placeholder="Username"
             required
           />
         </div>
-
-        <div className="form-outline mb-4" id="user_password_box">
+        <div class="form-group">
           <input
             type="password"
             id="user_password"
-            className="form-control"
+            class="form-control"
             placeholder="Password"
             required
           />
         </div>
-
-        <button type="submit" className="btn btn-primary btn-block mb-4">
-          Sign in
-        </button>
-        <p>Not a member? </p>
-        <Link
-          to="/register"
-          id="registerButton"
-          className="btn btn-success btn-block mb-4"
-        >
-          Register
-        </Link>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-block">
+            Sign in
+          </button>
+        </div>
+        <div id="newUserRegistrationWrapper">
+          <p class="text-center">Not a member Yet? </p>
+          <Link
+            to="/register"
+            id="registerButton"
+            className="btn btn-success btn-block mb-4"
+          >
+            Create New Account
+          </Link>
+        </div>
       </form>
     </div>
   );

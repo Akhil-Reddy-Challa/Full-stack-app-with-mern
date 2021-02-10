@@ -1,33 +1,24 @@
 .mainContainer {
-  /*
-    For Positioning container to the center
-    */
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-10%, -50%);
-
-  width: 500px;
-  height: 500px;
-  background-color: #808080;
-  text-align: center;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
-  border-radius: 10px;
+  width: 340px;
+  margin: 50px auto;
+  font-size: 15px;
 }
-#loginPageTitle {
+.mainContainer form {
+  margin-bottom: 15px;
+  background: #decba4;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  padding: 30px;
+}
+.login-form h2 {
+  margin: 0 0 15px;
+}
+.form-control,
+.btn {
+  min-height: 38px;
+  border-radius: 2px;
+}
+.btn {
+  border-radius: 0 !important;
+  font-size: 15px;
   font-weight: bold;
-  text-align: center;
-}
-
-#user_name,
-#user_password {
-  border-radius: 5px;
-}
-#user_name_box,
-#user_password_box {
-  margin: 10px;
-}
-#loginButton {
-  border-radius: 10px;
 }
