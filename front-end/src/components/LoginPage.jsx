@@ -61,7 +61,7 @@ const LoginPage = () => {
           </button>
         </div>
         <div id="newUserRegistrationWrapper">
-          <p class="text-center">Not a member Yet? </p>
+          <p class="text-center">Not a member yet? </p>
           <Link
             to="/register"
             id="registerButton"

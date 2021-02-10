@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "../styles/registerPage.css";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 
@@ -80,26 +79,26 @@ const RegisterPage = () => {
       );
   };
   return (
-    <div className="mainContainer">
-      <h3 id="registerPageTitle">Sign Up</h3>
-      <form onSubmit={handleSubmit(handleFormSubmit)}>
-        <div className="form-outline mb-4">
+    <div class="mainContainer">
+      <form onSubmit={handleSubmit(handleFormSubmit)} method="post">
+        <h2>Sign Up</h2>
+        <div class="form-group">
           <input
             type="text"
             id="user_name"
-            className="form-control"
-            placeholder="User name"
+            class="form-control"
+            placeholder="Username"
             minLength="4"
             required
           />
         </div>
-
-        <div className="form-outline mb-4">
+        <div class="form-group">
           <input
             type="password"
             id="user_password"
-            className="form-control"
+            class="form-control"
             placeholder="Password"
+            minLength="4"
             required
           />
         </div>
