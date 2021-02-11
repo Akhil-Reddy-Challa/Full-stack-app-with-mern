@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import "../styles/registerPage.css";
 
 const RegisterPage = () => {
   const history = useHistory();
@@ -126,18 +127,14 @@ const RegisterPage = () => {
             </div>
           </div>
         </div>
-        <div className="row mb-4">
-          <div className="col">
-            <div className="form-outline">
-              <input
-                type="email"
-                id="user_email"
-                className="form-control"
-                placeholder="Email"
-                required
-              />
-            </div>
-          </div>
+        <div className="form-group">
+          <input
+            type="email"
+            id="user_email"
+            className="form-control"
+            placeholder="Email"
+            required
+          />
         </div>
         <button type="submit" className="btn btn-primary btn-block mb-4">
           Sign up

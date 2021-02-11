@@ -7,8 +7,7 @@ import { useHistory } from "react-router-dom";
 const LoginPage = () => {
   const history = useHistory();
   const { register, handleSubmit, errors } = useForm();
-  const backend_api =
-    "http://ec2-3-12-85-236.us-east-2.compute.amazonaws.com:3000/";
+  const backend_api = "http://localhost:3000/";
 
   const AuthenticateUser = () => {
     //console.log("Authenticating");
@@ -22,11 +21,11 @@ const LoginPage = () => {
       .then((res) => res.json())
       .then(
         (res) => {
-          if (res.isValid) {
+          if (res.userExists) {
             //Now create a token and store in LocalStorage, for future
             localStorage.setItem("user_auth_token", user_name);
             history.push("/home");
-          } else alert("User not found");
+          } else alert("Username does not exist");
         },
         (error) => {
           alert("Error occured");

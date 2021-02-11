@@ -3,8 +3,10 @@ const router = express.Router();
 var mysql = require("mysql");
 const getDBCredentials = require("../database_schema/credentials");
 
-router.post("/", (req, res, next) => {
+router.get("/", (req, res, next) => {
   res.send("Inside POST");
+  const sqlite3 = require("sqlite3").verbose();
+  console.log(sqlite3);
 });
 router.get("/:user_data", (req, res, next) => {
   const user_name = res.req.params.user_data;

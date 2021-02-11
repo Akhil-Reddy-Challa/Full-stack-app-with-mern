@@ -96,8 +96,10 @@ const HandleFileUpload = (e) => {
   //Now prepare the file for transfer
   const file_data = new FormData();
   file_data.append("file", uploadedFile);
+  const backend_api =
+    "http://ec2-3-12-85-236.us-east-2.compute.amazonaws.com:3000/";
 
-  fetch("http://localhost:3000/fileupload/new", {
+  fetch(backend_api + "fileupload/new", {
     method: "POST",
     body: file_data,
   })
