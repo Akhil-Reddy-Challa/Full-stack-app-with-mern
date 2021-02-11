@@ -36,7 +36,7 @@ const RegisterPage = () => {
           (res) => {
             if (res && res.insertedToDB) {
               //Insertion success
-              console.log("Success");
+              console.log("Account creation Successful!");
               history.push("/login");
             } else alert("Error occured");
           },
