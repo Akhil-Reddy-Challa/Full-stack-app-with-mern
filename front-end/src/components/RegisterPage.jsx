@@ -79,24 +79,24 @@ const RegisterPage = () => {
       );
   };
   return (
-    <div class="mainContainer">
+    <div className="mainContainer">
       <form onSubmit={handleSubmit(handleFormSubmit)} method="post">
         <h2>Sign Up</h2>
-        <div class="form-group">
+        <div className="form-group">
           <input
             type="text"
             id="user_name"
-            class="form-control"
+            className="form-control"
             placeholder="Username"
             minLength="4"
             required
           />
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <input
             type="password"
             id="user_password"
-            class="form-control"
+            className="form-control"
             placeholder="Password"
             minLength="4"
             required

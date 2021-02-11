@@ -34,34 +34,34 @@ const LoginPage = () => {
       );
   };
   return (
-    <div class="mainContainer">
+    <div className="mainContainer">
       <form onSubmit={handleSubmit(AuthenticateUser)} method="post">
         <h2>Log in</h2>
-        <div class="form-group">
+        <div className="form-group">
           <input
             type="text"
             id="user_name"
-            class="form-control"
+            className="form-control"
             placeholder="Username"
             required
           />
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <input
             type="password"
             id="user_password"
-            class="form-control"
+            className="form-control"
             placeholder="Password"
             required
           />
         </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary btn-block">
+        <div className="form-group">
+          <button type="submit" className="btn btn-primary btn-block">
             Sign in
           </button>
         </div>
         <div id="newUserRegistrationWrapper">
-          <p class="text-center">Not a member yet? </p>
+          <p className="text-center">Not a member yet? </p>
           <Link
             to="/register"
             id="registerButton"
