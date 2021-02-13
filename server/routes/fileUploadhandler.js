@@ -13,7 +13,6 @@ router.post("/", (req, res, next) => {
  * If the file is uploaded succesfully, we return JSON object, with status true
  */
 const multer = require("multer");
-const { use } = require("./authenticateUser");
 const storage = multer.diskStorage({
   destination: (req, file, callBack) => {
     callBack(null, "uploads");
@@ -30,33 +29,36 @@ const storage = multer.diskStorage({
 });
 let upload = multer({ dest: "uploads/", storage: storage });
 router.post("/new", upload.single("file"), async (req, res, next) => {
+  console.log("Inside POST");
   const file = req.file;
   const user_name = req.body.user_name;
   let wordCount = 22;
-  //console.log("Before, wC=", wordCount);
-
-  var fs = require("fs"),
-    filename = file.path;
-  fs.readFile(filename, "utf8", async (err, data) => {
-    if (err) throw err;
-    const words_count = data.split(" ").length;
-
-    if (file) {
-      //File is uploaded to uploads/fileName-milliseonds.txt
-      //Store the path against user_name in UserStoredFile DB
-      const uploadStatus = await uploadRecordToDB(
-        user_name,
-        file.path,
-        words_count
-      );
-      if (uploadStatus) res.send({ uploadSuccess: true });
-      else res.send({ uploadSuccess: false });
-    } else {
-      const error = new Error("No File");
-      error.httpStatusCode = 400;
-      return next(error);
-    }
-  });
+  // var fs = require("fs"),
+  //   filename = file.path;
+  // fs.readFile(filename, "utf8", async (err, data) => {
+  //   if (err) {
+  //     console.log("Inside if err", err);
+  //     throw err;
+  //   } else wordCount = data.split(" ").length;
+  // });
+  console.log("I'm here");
+  if (file) {
+    console.log("I'm here in if");
+    //File is uploaded to uploads/fileName-milliseonds.txt
+    //Store the path against user_name in UserStoredFile DB
+    const uploadStatus = await uploadRecordToDB(
+      user_name,
+      file.path,
+      wordCount
+    );
+    if (uploadStatus) res.send({ uploadSuccess: true });
+    else res.send({ uploadSuccess: false });
+  } else {
+    console.log("I'm here in else");
+    const error = new Error("No File");
+    error.httpStatusCode = 400;
+    return next(error);
+  }
 });
 async function uploadRecordToDB(user_name, file_path, word_count) {
   const client = new MongoClient(CONNECTION_URL, {
@@ -89,5 +91,4 @@ async function uploadRecordToDB(user_name, file_path, word_count) {
     return insertStatus;
   }
 }
-async function getWordCount(file) {}
 module.exports = router;
