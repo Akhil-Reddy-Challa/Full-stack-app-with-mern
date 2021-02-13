@@ -1,37 +1,70 @@
 const express = require("express");
 const router = express.Router();
-var mysql = require("mysql");
-const getDBCredentials = require("../database_schema/credentials");
+const { MongoClient } = require("mongodb");
+const { CONNECTION_URL } = require("../Database/db_config");
 
-router.get("/", (req, res, next) => {
-  res.send("Inside host/newuser GET");
+router.post("/", async (req, res, next) => {
+  //Inside new user creation
+  const user_data = req.body;
+  //console.log(user_data);
+  const userExists = await userExistsInDB(user_data.user_name);
+  if (!userExists) {
+    console.log("User dont exist, so inserting into DB");
+    const responseFromDB = insertToDB(user_data);
+    if (responseFromDB) res.send({ userCreated: true });
+    else res.send({ userCreated: false });
+  } else {
+    res.send({ userCreated: false });
+  }
 });
 
-router.get("/:user_data", (req, res, next) => {
-  const user_data = res.req.params.user_data;
-  const [
-    user_name,
-    password,
-    user_first_name,
-    user_last_name,
-    user_email,
-  ] = user_data.split("&&");
+async function insertToDB(user_data) {
+  const client = new MongoClient(CONNECTION_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  // The database to use
+  const dbName = "UsersDatabase";
+  let userObject = null;
 
-  //insert to DB
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const collection = db.collection("UsersList");
+    // Insert a single document, wait for promise so we can read it back
+    const p = await collection.insertOne(user_data);
+    //Inserted into DB
+    console.log(p);
 
-  var connection = mysql.createConnection(getDBCredentials);
-  connection.connect();
-  connection.query(
-    `INSERT INTO Users(user_name,password,user_first_name,user_last_name,user_email) VALUES("${user_name}","${password}",
-    "${user_first_name}","${user_last_name}","${user_email}")`,
-    (err, row, fields) => {
-      if (err) res.send({ insertedToDB: false });
-      else {
-        console.log("Record inserted");
-        res.send({ insertedToDB: true });
-      }
-    }
-  );
-});
+    return true;
+  } catch (err) {
+    console.log(err.stack);
+  } finally {
+    await client.close();
+    return false;
+  }
+}
+async function userExistsInDB(name) {
+  const client = new MongoClient(CONNECTION_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  // The database to use
+  const dbName = "UsersDatabase";
+  let userObject = false;
 
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const collection = db.collection("UsersList");
+    userObject = await collection.findOne({
+      user_name: name,
+    });
+  } catch (err) {
+    console.log(err.stack);
+  } finally {
+    await client.close();
+    return userObject;
+  }
+}
 module.exports = router;

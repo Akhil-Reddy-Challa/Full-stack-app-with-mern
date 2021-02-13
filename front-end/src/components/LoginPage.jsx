@@ -3,32 +3,44 @@ import "../styles/loginPage.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+const { backend_api } = require("../utils/backend_api");
 
 const LoginPage = () => {
   const history = useHistory();
   const { register, handleSubmit, errors } = useForm();
-  const backend_api = "http://localhost:3000/";
 
   const AuthenticateUser = () => {
-    //console.log("Authenticating");
     const user_name = document.getElementById("user_name").value;
     const user_password = document.getElementById("user_password").value;
-    //console.log(user_name, user_password);
+
+    //Store creds in JSON object
+    const user_creds = { user_name: user_name, user_password: user_password };
 
     //Now make a call to the backend to validate user credentials
-    const user_data = user_name + "&&" + user_password;
-    fetch(backend_api + "authenticateUser/" + user_data)
+    fetch(backend_api + "authenticateUser/", {
+      headers: { "Content-Type": "application/json" },
+      method: "post",
+      body: JSON.stringify(user_creds),
+    })
       .then((res) => res.json())
       .then(
-        (res) => {
-          if (res.userExists) {
-            //Now create a token and store in LocalStorage, for future
-            localStorage.setItem("user_auth_token", user_name);
-            history.push("/home");
-          } else alert("Username does not exist");
+        (user_data) => {
+          //Validate user credentials
+          if (user_data) {
+            if (
+              user_data.user_password &&
+              user_data.user_password === user_password
+            ) {
+              //Now create a token and store in LocalStorage, for future
+              localStorage.setItem("user_auth_token", user_name);
+              history.push("/home");
+            } else {
+              alert("UserName does not exist or Password is incorrect");
+            }
+          }
         },
         (error) => {
-          alert("Error occured");
+          alert("An Error Occured");
         }
       );
   };

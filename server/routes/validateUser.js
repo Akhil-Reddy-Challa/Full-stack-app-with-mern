@@ -1,30 +1,44 @@
 const express = require("express");
 const router = express.Router();
-var mysql = require("mysql");
-const getDBCredentials = require("../database_schema/credentials");
+const { MongoClient } = require("mongodb");
+const { CONNECTION_URL } = require("../Database/db_config");
 
-router.get("/", (req, res, next) => {
-  res.send("Inside POST");
-  const sqlite3 = require("sqlite3").verbose();
-  console.log(sqlite3);
-});
-router.get("/:user_data", (req, res, next) => {
-  const user_name = res.req.params.user_data;
+router.post("/", async (req, res) => {
+  const user_creds = req.body;
+  console.log(user_creds);
 
-  var connection = mysql.createConnection(getDBCredentials);
-  connection.connect();
-
-  connection.query(
-    `SELECT * FROM Users WHERE user_name = "${user_name}"`,
-    (err, row, fields) => {
-      if (err) throw err;
-      else {
-        //Check if Row exists
-        console.log("Row is", row);
-        res.send({ isValid: row.length === 1 });
-      }
-    }
-  );
+  //Check for user_data in MongoDB
+  const user_data = await checkInDBFor(user_creds.user_name);
+  console.log(user_data);
+  //Validate user object
+  if (user_data) {
+    res.send(user_data);
+  } else {
+    res.send({});
+  }
 });
 
+async function checkInDBFor(name) {
+  const client = new MongoClient(CONNECTION_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  // The database to use
+  const dbName = "UsersDatabase";
+  let userObject = null;
+
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const collection = db.collection("UsersList");
+    userObject = await collection.findOne({
+      user_name: name,
+    });
+  } catch (err) {
+    console.log(err.stack);
+  } finally {
+    await client.close();
+    return userObject;
+  }
+}
 module.exports = router;
