@@ -4,7 +4,6 @@ import "font-awesome/css/font-awesome.min.css";
 import FileUploadForm from "./FileUploadForm";
 const { backend_api } = require("../utils/backend_api");
 let user_details = {};
-let user_files = [];
 
 class HomePage extends Component {
   constructor(props) {
@@ -80,7 +79,7 @@ class HomePage extends Component {
   downloadFile = (fileName) => {
     console.log("Downloading " + fileName);
 
-    var url = "http://localhost:3000/download/" + fileName;
+    var url = backend_api + "download/" + fileName;
     window.location = url;
   };
   render() {
