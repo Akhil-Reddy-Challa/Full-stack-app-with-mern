@@ -184,7 +184,7 @@ class HomePage extends Component {
                   console.log("packet", user_files_packet);
                   for (let i = 0; i < user_files_packet.length; i++) {
                     let packet = user_files_packet[i].split("/");
-                    user_files_packet[i] = [packet[1], packet[2]];
+                    user_files_packet[i] = [packet[6], packet[7]];
                   }
                   console.log(user_files_packet);
                   this.setState({

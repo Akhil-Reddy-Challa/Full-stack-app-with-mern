@@ -11,7 +11,7 @@ const RegisterPage = () => {
   const handleFormSubmit = () => {
     //Start validating our form
     const userData = extractData();
-    console.log(userData);
+    //console.log(userData);
 
     //Now send a request to backend server and add record to database
 

@@ -6,7 +6,7 @@ const { CONNECTION_URL } = require("../Database/db_config");
 router.post("/", async (req, res, next) => {
   const user = req.body;
   const user_name = user.user_name;
-  console.log("Get files of user", user_name);
+  console.log("Getting files of user", user_name);
   const user_files = await fetchFilesDatafromDB(user_name);
   console.log(user_files);
 

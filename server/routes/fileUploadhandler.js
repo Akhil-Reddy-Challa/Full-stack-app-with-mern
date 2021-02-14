@@ -6,58 +6,61 @@ const { CONNECTION_URL } = require("../Database/db_config");
 router.post("/", (req, res, next) => {
   res.send("Inside POST of fileupload");
 });
+function getPath(rootDirectory, original_file_name) {
+  //chop ".txt" extension from the fileName
+  const just_file_name = original_file_name.split(".").slice(0, -1).join(".");
+  const random_number = new Date().getTime();
+  let path;
+  path =
+    rootDirectory +
+    "/server/uploads/" +
+    just_file_name +
+    "_" +
+    random_number +
+    ".txt";
+  return path;
+}
+function getWordCount(path) {
+  //Compute Word Count
+}
+router.post("/new", async (req, res, next) => {
+  try {
+    const rootDirectory = process.cwd();
+    const fileObject = req.files;
+    const user_name = req.body.user_name;
+    let wordCount = 0; //default_value
+    let upload_path_and_file_name = getPath(
+      rootDirectory,
+      fileObject.file.name
+    );
+    console.log(rootDirectory, user_name, wordCount);
+    console.log(upload_path_and_file_name);
 
-/**
- * Handling file upload
- * import multer and set the destination to store the file and file_name
- * If the file is uploaded succesfully, we return JSON object, with status true
- */
-const multer = require("multer");
-const storage = multer.diskStorage({
-  destination: (req, file, callBack) => {
-    callBack(null, "uploads");
-  },
-  filename: (req, file, callBack) => {
-    callBack(
-      null,
-      file.originalname.split(".").slice(0, -1).join(".") +
-        "-" +
-        new Date().getTime() +
-        ".txt"
-    );
-  },
-});
-let upload = multer({ dest: "uploads/", storage: storage });
-router.post("/new", upload.single("file"), async (req, res, next) => {
-  console.log("Inside POST");
-  const file = req.file;
-  const user_name = req.body.user_name;
-  let wordCount = 22;
-  // var fs = require("fs"),
-  //   filename = file.path;
-  // fs.readFile(filename, "utf8", async (err, data) => {
-  //   if (err) {
-  //     console.log("Inside if err", err);
-  //     throw err;
-  //   } else wordCount = data.split(" ").length;
-  // });
-  console.log("I'm here");
-  if (file) {
-    console.log("I'm here in if");
-    //File is uploaded to uploads/fileName-milliseonds.txt
-    //Store the path against user_name in UserStoredFile DB
-    const uploadStatus = await uploadRecordToDB(
-      user_name,
-      file.path,
-      wordCount
-    );
-    if (uploadStatus) res.send({ uploadSuccess: true });
-    else res.send({ uploadSuccess: false });
-  } else {
-    console.log("I'm here in else");
-    const error = new Error("No File");
-    error.httpStatusCode = 400;
-    return next(error);
+    fileObject.file.mv(upload_path_and_file_name, async (err) => {
+      if (!err) {
+        //Find the word count
+        const fs = require("fs");
+        fs.readFile(upload_path_and_file_name, "utf8", async (err, data) => {
+          if (!err) {
+            wordCount = data.split(" ").length;
+            //console.log("Word count is:" + wordCount);
+            // File is uploaded to uploads/fileName-milliseonds.txt
+            // Store the path against user_name in DB("UserStoredFile")
+            const uploadStatus = await uploadRecordToDB(
+              user_name,
+              upload_path_and_file_name,
+              wordCount
+            );
+            console.log("File uploaded!");
+            if (uploadStatus) res.send({ uploadSuccess: true });
+            else res.send({ uploadSuccess: false });
+          }
+        });
+      }
+    });
+  } catch (err) {
+    console.log("There was an error in file uploading process");
+    console.log("Stack trace:", err);
   }
 });
 async function uploadRecordToDB(user_name, file_path, word_count) {
