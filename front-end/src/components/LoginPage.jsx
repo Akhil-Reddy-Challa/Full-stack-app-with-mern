@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 const { backend_api } = require("../utils/backend_api");
 
-const LoginPage = () => {
+const LoginPage = (props) => {
   const history = useHistory();
-  const { register, handleSubmit, errors } = useForm();
+  const { handleSubmit, errors } = useForm();
 
   const AuthenticateUser = () => {
     const user_name = document.getElementById("user_name").value;
