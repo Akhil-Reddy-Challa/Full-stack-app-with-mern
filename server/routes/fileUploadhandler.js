@@ -43,7 +43,6 @@ router.post("/new", async (req, res, next) => {
         fs.readFile(upload_path_and_file_name, "utf8", async (err, data) => {
           if (!err) {
             wordCount = data.split(" ").length;
-            //console.log("Word count is:" + wordCount);
             // File is uploaded to uploads/fileName-milliseonds.txt
             // Store the path against user_name in DB("UserStoredFile")
             const uploadStatus = await uploadRecordToDB(
@@ -51,8 +50,8 @@ router.post("/new", async (req, res, next) => {
               upload_path_and_file_name,
               wordCount
             );
-            console.log("File uploaded!");
-            if (uploadStatus) res.send({ uploadSuccess: true });
+            //console.log("File uploaded!");
+            if (uploadStatus) res.send({ uploadSuccess: true, wordCount });
             else res.send({ uploadSuccess: false });
           }
         });

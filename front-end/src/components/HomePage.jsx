@@ -88,7 +88,7 @@ const HomePage = (props) => {
         PrintStatusOfUpload(0);
         //Update the state to display the newly uploaded file
         setUserFilesList((userFilesList) => [...userFilesList, file_name]);
-        setWordCount((wordCount) => [...wordCount, 999]);
+        setWordCount((wordCount) => [...wordCount, statusOfUpload.wordCount]);
       } else PrintStatusOfUpload(1);
     }
   };
