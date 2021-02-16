@@ -11,10 +11,6 @@ const HomePage = (props) => {
   let [userFilesList, setUserFilesList] = useState([]);
   useEffect(() => {
     //console.log("Inside use effect");
-    //Make our Footer,header banner disappear, we display logos on login,signup pages.
-    document.getElementById("footerWrapper").style.display = "none";
-    document.getElementById("headerWrapper").style.display = "none";
-
     async function fetchUserInfo(user_name) {
       const response = await fetch(backend_api + "getUserData/", {
         headers: { "Content-Type": "application/json" },

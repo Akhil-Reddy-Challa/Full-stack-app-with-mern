@@ -45,43 +45,64 @@ const LoginPage = (props) => {
       );
   };
   return (
-    <div className="mainContainer">
-      <form onSubmit={handleSubmit(AuthenticateUser)} method="post">
-        <h2>Log in</h2>
-        <div className="form-group">
-          <input
-            type="text"
-            id="user_name"
-            className="form-control"
-            placeholder="Username"
-            required
+    <div>
+      <header id="headerWrapper">
+        <div style={{ "text-align": "center" }}>
+          <h2>Welcome to Cloud File Storage</h2>
+          Access your files from multiple devices
+        </div>
+      </header>
+      <div className="mainContainer">
+        <form onSubmit={handleSubmit(AuthenticateUser)} method="post">
+          <h2>Log in</h2>
+          <div className="form-group">
+            <input
+              type="text"
+              id="user_name"
+              className="form-control"
+              placeholder="Username"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              id="user_password"
+              className="form-control"
+              placeholder="Password"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <button type="submit" className="btn btn-primary btn-block">
+              Sign in
+            </button>
+          </div>
+          <div id="newUserRegistrationWrapper">
+            <p className="text-center">Not a member yet? </p>
+            <Link
+              to="/register"
+              id="registerButton"
+              className="btn btn-success btn-block mb-4"
+            >
+              Create New Account
+            </Link>
+          </div>
+        </form>
+      </div>
+      <footer id="footerWrapper" style={{ "text-align": "center" }}>
+        <a href="/">
+          <img src="universityLogo.png" alt="University of Cincinnati" />
+        </a>
+        <br />
+        <br />
+        <a href="/">
+          <img
+            src="powered-by-aws-logo.png"
+            alt="Powered by AWS Cloud Computing"
           />
-        </div>
-        <div className="form-group">
-          <input
-            type="password"
-            id="user_password"
-            className="form-control"
-            placeholder="Password"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <button type="submit" className="btn btn-primary btn-block">
-            Sign in
-          </button>
-        </div>
-        <div id="newUserRegistrationWrapper">
-          <p className="text-center">Not a member yet? </p>
-          <Link
-            to="/register"
-            id="registerButton"
-            className="btn btn-success btn-block mb-4"
-          >
-            Create New Account
-          </Link>
-        </div>
-      </form>
+        </a>
+      </footer>
     </div>
   );
 };
