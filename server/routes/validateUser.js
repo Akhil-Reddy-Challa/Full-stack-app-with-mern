@@ -5,11 +5,11 @@ const { CONNECTION_URL } = require("../Database/db_config");
 
 router.post("/", async (req, res) => {
   const user_creds = req.body;
-  console.log(user_creds);
+  // console.log(user_creds);
 
   //Check for user_data in MongoDB
   const user_data = await checkInDBFor(user_creds.user_name);
-  console.log(user_data);
+  // console.log(user_data);
   //Validate user object
   if (user_data) {
     res.send(user_data);

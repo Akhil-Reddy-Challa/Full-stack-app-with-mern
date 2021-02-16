@@ -20,9 +20,6 @@ function getPath(rootDirectory, original_file_name) {
     ".txt";
   return path;
 }
-function getWordCount(path) {
-  //Compute Word Count
-}
 router.post("/new", async (req, res, next) => {
   try {
     const rootDirectory = process.cwd();
@@ -33,8 +30,8 @@ router.post("/new", async (req, res, next) => {
       rootDirectory,
       fileObject.file.name
     );
-    console.log(rootDirectory, user_name, wordCount);
-    console.log(upload_path_and_file_name);
+    // console.log(rootDirectory, user_name, wordCount);
+    // console.log(upload_path_and_file_name);
 
     fileObject.file.mv(upload_path_and_file_name, async (err) => {
       if (!err) {
@@ -51,14 +48,18 @@ router.post("/new", async (req, res, next) => {
               wordCount
             );
             //console.log("File uploaded!");
-            if (uploadStatus) res.send({ uploadSuccess: true, wordCount });
+            if (uploadStatus)
+              res.send({
+                uploadSuccess: true,
+                upload_path_and_file_name,
+                wordCount,
+              });
             else res.send({ uploadSuccess: false });
           }
         });
       }
     });
   } catch (err) {
-    console.log("There was an error in file uploading process");
     console.log("Stack trace:", err);
   }
 });

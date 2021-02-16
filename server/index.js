@@ -14,13 +14,15 @@ const authenticateUserRouter = require("./routes/authenticateUser");
 const newUserCreationRouter = require("./routes/newUserCreation");
 const getUserDataRouter = require("./routes/getUserData");
 const fileUploadHandlerRouter = require("./routes/fileUploadhandler");
-const userFilesData = require("./routes/fetchUserFiles");
+const userFilesDataRouter = require("./routes/fetchUserFiles");
+const fileDeleteRouter = require("./routes/fileDelete");
 
 app.use("/authenticateUser", authenticateUserRouter);
 app.use("/newuser", newUserCreationRouter);
 app.use("/getUserData", getUserDataRouter);
 app.use("/fileupload", fileUploadHandlerRouter);
-app.use("/files", userFilesData);
+app.use("/files", userFilesDataRouter);
+app.use("/delete", fileDeleteRouter);
 
 app.get("/download/:file_name", (req, res, next) => {
   const file = __dirname + "/uploads/" + req.params.file_name;

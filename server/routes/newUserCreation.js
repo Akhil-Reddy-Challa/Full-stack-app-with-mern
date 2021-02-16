@@ -9,7 +9,7 @@ router.post("/", async (req, res, next) => {
   //console.log(user_data);
   const userExists = await userExistsInDB(user_data.user_name);
   if (!userExists) {
-    console.log("User dont exist, so inserting into DB");
+    // console.log("User dont exist, so inserting into DB");
     const responseFromDB = insertToDB(user_data);
     if (responseFromDB) res.send({ userCreated: true });
     else res.send({ userCreated: false });
@@ -34,7 +34,7 @@ async function insertToDB(user_data) {
     // Insert a single document, wait for promise so we can read it back
     const p = await collection.insertOne(user_data);
     //Inserted into DB
-    console.log(p);
+    // console.log(p);
 
     return true;
   } catch (err) {
