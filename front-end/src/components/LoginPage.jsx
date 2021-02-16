@@ -14,7 +14,7 @@ const LoginPage = (props) => {
     const user_password = document.getElementById("user_password").value;
 
     //Store creds in JSON object
-    const user_creds = { user_name: user_name, user_password: user_password };
+    const user_creds = { user_name, user_password };
 
     //Now make a call to the backend to validate user credentials
     fetch(backend_api + "authenticateUser/", {
