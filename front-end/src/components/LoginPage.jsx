@@ -47,7 +47,7 @@ const LoginPage = (props) => {
   return (
     <div>
       <header id="headerWrapper">
-        <div style={{ "text-align": "center" }}>
+        <div style={{ textAlign: "center" }}>
           <h2>Welcome to Cloud File Storage</h2>
           Access your files from multiple devices
         </div>

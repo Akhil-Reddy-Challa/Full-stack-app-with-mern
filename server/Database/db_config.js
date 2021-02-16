@@ -1,4 +1,5 @@
-const CONNECTION_URL =
-  "mongodb+srv://root_admin:ACjVlZjHL05aMawq@userscluster.ur3rm.mongodb.net/UsersDatabase?retryWrites=true&w=majority";
+const dotenv = require("dotenv");
+dotenv.config();
+const MONGODB_URI = process.env.MONGODB_URI;
 
-module.exports = { CONNECTION_URL };
+module.exports = { MONGODB_URI };

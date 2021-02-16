@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { MongoClient } = require("mongodb");
-const { CONNECTION_URL } = require("../Database/db_config");
+const { MONGODB_URI } = require("../Database/db_config");
 
 router.post("/", async (req, res, next) => {
   //Inside new user creation
@@ -19,7 +19,7 @@ router.post("/", async (req, res, next) => {
 });
 
 async function insertToDB(user_data) {
-  const client = new MongoClient(CONNECTION_URL, {
+  const client = new MongoClient(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
@@ -45,7 +45,7 @@ async function insertToDB(user_data) {
   }
 }
 async function userExistsInDB(name) {
-  const client = new MongoClient(CONNECTION_URL, {
+  const client = new MongoClient(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });

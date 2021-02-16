@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { MongoClient } = require("mongodb");
-const { CONNECTION_URL } = require("../Database/db_config");
+const { MONGODB_URI } = require("../Database/db_config");
 
 router.post("/", async (req, res, next) => {
   const user = req.body;
@@ -16,7 +16,7 @@ router.post("/", async (req, res, next) => {
 });
 
 async function fetchDatafromDB(user_name) {
-  const client = new MongoClient(CONNECTION_URL, {
+  const client = new MongoClient(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { MongoClient } = require("mongodb");
-const { CONNECTION_URL } = require("../Database/db_config");
+const { MONGODB_URI } = require("../Database/db_config");
 
 router.post("/", (req, res, next) => {
   res.send("Inside POST of fileupload");
@@ -64,7 +64,7 @@ router.post("/new", async (req, res, next) => {
   }
 });
 async function uploadRecordToDB(user_name, file_path, word_count) {
-  const client = new MongoClient(CONNECTION_URL, {
+  const client = new MongoClient(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
