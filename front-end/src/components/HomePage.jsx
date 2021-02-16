@@ -104,16 +104,19 @@ const HomePage = (props) => {
       document.getElementById("fileUploadFormWrapper").style.display = "none";
     }, 1500);
   };
-  const DownloadFile = (fileName) => {
-    //console.log("Downloading " + fileName);
-    var url = backend_api + "download/" + fileName;
+  const DownloadFile = (filePath) => {
+    console.log("Downloading " + filePath);
+    //Sample path = "/home/ubuntu/server/server/uploads/avengers_1613364487641.txt/656"
+    //Extract only the fileName
+    const fileName = filePath.split("/")[6];
+    const url = backend_api + "download/" + fileName;
     window.location = url;
   };
   const OpenFileUploadForm = () => {
     document.getElementById("fileUploadFormWrapper").style.display = "block";
   };
   const HandleFileDelete = (to_delete_path) => {
-    //Sample path = /home/ubuntu/server/server/uploads/avengers_1613364487641.txt/656
+    //Sample path = "/home/ubuntu/server/server/uploads/avengers_1613364487641.txt/656"
     //Trim the last part(wordCount)
     // Find the index of last "/" and extract the substring
     let path_ = to_delete_path.substring(0, to_delete_path.lastIndexOf("/"));
