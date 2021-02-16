@@ -75,10 +75,13 @@ const HomePage = (props) => {
       if (statusOfUpload.uploadSuccess) {
         PrintStatusOfUpload(0);
         //Update the state to display the newly uploaded file
+        console.log(statusOfUpload);
 
         setUserFilesList((userFilesList) => [
           ...userFilesList,
-          statusOfUpload.upload_path_and_file_name,
+          statusOfUpload.upload_path_and_file_name +
+            "/" +
+            statusOfUpload.wordCount,
         ]);
       } else PrintStatusOfUpload(1);
     }
@@ -103,7 +106,7 @@ const HomePage = (props) => {
       document.getElementById(htmlID).style.display = "none";
       //Hide the upload form
       document.getElementById("fileUploadFormWrapper").style.display = "none";
-    }, 3000);
+    }, 1500);
   };
   const DownloadFile = (fileName) => {
     //console.log("Downloading " + fileName);
