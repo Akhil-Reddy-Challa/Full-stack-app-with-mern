@@ -1,51 +1,37 @@
 import React, { Component } from "react";
-import "../styles/registerPage.css";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import "../styles/registerPage.css";
+const { backend_api } = require("../utils/backend_api");
 
 const RegisterPage = () => {
   const history = useHistory();
-  const { register, handleSubmit, errors } = useForm();
-  const backend_api =
-    "http://ec2-3-12-85-236.us-east-2.compute.amazonaws.com:3000/";
+  const { handleSubmit, errors } = useForm();
 
   const handleFormSubmit = () => {
     //Start validating our form
-    const {
-      user_name,
-      user_password,
-      user_first_name,
-      user_last_name,
-      user_email,
-    } = extractData();
+    const userData = extractData();
+    //console.log(userData);
 
-    if (!userAccountExists(user_name)) {
-      //Now send a request to backend server and add record to database
-      const user_data =
-        user_name +
-        "&&" +
-        user_password +
-        "&&" +
-        user_first_name +
-        "&&" +
-        user_last_name +
-        "&&" +
-        user_email;
-      fetch(backend_api + "newuser/" + user_data)
-        .then((res) => res.json())
-        .then(
-          (res) => {
-            if (res && res.insertedToDB) {
-              //Insertion success
-              console.log("Success");
-              history.push("/login");
-            } else alert("Error occured");
-          },
-          (error) => {
-            alert("Error occured");
-          }
-        );
-    }
+    //Now send a request to backend server and add record to database
+
+    fetch(backend_api + "newuser/", {
+      headers: { "Content-Type": "application/json" },
+      method: "post",
+      body: JSON.stringify(userData),
+    })
+      .then((response) => response.json())
+      .then(
+        (response) => {
+          if (response && response.userCreated) {
+            //console.log("Account creation Successful!");
+            history.push("/login");
+          } else alert("User Name already in use");
+        },
+        (error) => {
+          alert("An Error Occured");
+        }
+      );
   };
   const extractData = () => {
     const user_name = document.getElementById("user_name").value;
@@ -55,51 +41,34 @@ const RegisterPage = () => {
     const user_email = document.getElementById("user_email").value;
 
     return {
-      user_name,
-      user_password,
-      user_first_name,
-      user_last_name,
-      user_email,
+      user_name: user_name,
+      user_password: user_password,
+      user_first_name: user_first_name,
+      user_last_name: user_last_name,
+      user_email: user_email,
     };
-  };
-  const userAccountExists = (user) => {
-    //Make a request to DB to find if user_account exists
-    fetch(backend_api + "validateUser/" + user)
-      .then((res) => res.json())
-      .then(
-        (res) => {
-          if (res.isValid) {
-            //User already exists
-            return true;
-          } else return false;
-        },
-        (error) => {
-          alert("Error occured");
-          return false;
-        }
-      );
   };
   return (
     <div className="mainContainer">
-      <h3 id="registerPageTitle">Sign Up</h3>
-      <form onSubmit={handleSubmit(handleFormSubmit)}>
-        <div className="form-outline mb-4">
+      <form onSubmit={handleSubmit(handleFormSubmit)} method="post">
+        <h2>Sign Up</h2>
+        <div className="form-group">
           <input
             type="text"
             id="user_name"
             className="form-control"
-            placeholder="User name"
+            placeholder="Username"
             minLength="4"
             required
           />
         </div>
-
-        <div className="form-outline mb-4">
+        <div className="form-group">
           <input
             type="password"
             id="user_password"
             className="form-control"
             placeholder="Password"
+            minLength="4"
             required
           />
         </div>
@@ -127,18 +96,14 @@ const RegisterPage = () => {
             </div>
           </div>
         </div>
-        <div className="row mb-4">
-          <div className="col">
-            <div className="form-outline">
-              <input
-                type="email"
-                id="user_email"
-                className="form-control"
-                placeholder="Email"
-                required
-              />
-            </div>
-          </div>
+        <div className="form-group">
+          <input
+            type="email"
+            id="user_email"
+            className="form-control"
+            placeholder="Email"
+            required
+          />
         </div>
         <button type="submit" className="btn btn-primary btn-block mb-4">
           Sign up

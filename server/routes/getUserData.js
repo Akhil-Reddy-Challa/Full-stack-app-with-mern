@@ -1,28 +1,42 @@
 const express = require("express");
 const router = express.Router();
-var mysql = require("mysql");
-const getDBCredentials = require("../database_schema/credentials");
+const { MongoClient } = require("mongodb");
+const { MONGODB_URI } = require("../Database/db_config");
 
-router.get("/", (req, res, next) => {
-  res.send("Inside Get user data");
+router.post("/", async (req, res, next) => {
+  const user = req.body;
+  //console.log(user.user_name);
+  const user_data_packet = await fetchDatafromDB(user.user_name);
+  //console.log(user_data);
+  if (user_data_packet) {
+    //Delete the password field in object
+    delete user_data_packet["user_password"];
+    res.send(user_data_packet);
+  } else res.send({});
 });
-router.get("/:user_data", (req, res, next) => {
-  const user_name = res.req.params.user_data;
 
-  var connection = mysql.createConnection(getDBCredentials);
-  connection.connect();
+async function fetchDatafromDB(user_name) {
+  const client = new MongoClient(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  // The database to use
+  const dbName = "UsersDatabase";
+  let userObject = null;
 
-  connection.query(
-    `SELECT * FROM Users WHERE user_name = "${user_name}"`,
-    (err, row, fields) => {
-      if (err) throw err;
-      else {
-        //Check if Row exists
-        console.log("Row is", row);
-        res.send({ isValid: row.length === 1 });
-      }
-    }
-  );
-});
+  try {
+    await client.connect();
+    const db = client.db(dbName);
+    const collection = db.collection("UsersList");
+    userObject = await collection.findOne({
+      user_name: user_name,
+    });
+  } catch (err) {
+    console.log(err.stack);
+  } finally {
+    await client.close();
+    return userObject;
+  }
+}
 
 module.exports = router;
