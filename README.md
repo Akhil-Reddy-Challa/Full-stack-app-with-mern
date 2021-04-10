@@ -1,1 +1,1 @@
-# full-stack-app-with-myern
+# full-stack-app-using-mern
